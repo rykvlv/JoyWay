@@ -7,6 +7,7 @@
 #include "JWBaseCharacter.generated.h"
 
 class UCameraComponent;
+class USpringArmComponent;
 
 UCLASS()
 class JOYWAY_API AJWBaseCharacter : public ACharacter
@@ -20,6 +21,9 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
 	UCameraComponent* CameraComponent;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
+	USpringArmComponent* SpringArmComponent;
+
 
 	virtual void BeginPlay() override;
 
@@ -28,4 +32,13 @@ public:
 
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	UFUNCTION(BlueprintCallable, Category = "Movement")
+	float GetMovementDirection() const;
+
+private:
+	void MoveForward(float Amount);
+	void MoveRight(float Amount);
+
+	void LookUp(float Amount);
+	void TurnAround(float Amount);
 };
