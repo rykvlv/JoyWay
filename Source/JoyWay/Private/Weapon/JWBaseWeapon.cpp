@@ -5,18 +5,21 @@
 #include "GameFramework/Character.h"
 #include "GameFramework/Controller.h"
 
+DEFINE_LOG_CATEGORY_STATIC(LogBaseWeapon, All, All)
+
 AJWBaseWeapon::AJWBaseWeapon()
 {
 	PrimaryActorTick.bCanEverTick = false;
 
+	WeaponMeshComponent = CreateDefaultSubobject<USkeletalMeshComponent>("WeaponMesh");
+	SetRootComponent(WeaponMeshComponent);
 }
 
 void AJWBaseWeapon::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	WeaponMeshComponent = CreateDefaultSubobject<USkeletalMeshComponent>("WeaponMesh");
-	SetRootComponent(WeaponMeshComponent);
+	check(WeaponMeshComponent);
 }
 
 void AJWBaseWeapon::StartFire()

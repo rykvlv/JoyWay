@@ -19,21 +19,14 @@ public:
 	void StartFire();
 	void StopFire();
 
-protected:
-	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
-	TArray<TSubclassOf<AJWBaseWeapon>> WeaponClasses;
+	void EquipWeapon(AJWBaseWeapon* Weapon);
 
+protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
 	TSubclassOf<AJWBaseWeapon> CurrentWeaponClass;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
-	TSubclassOf<AJWBaseWeapon> PreviousWeaponClass;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
 	FName WeaponEquipSocketName = "WeaponSocket";
-
-	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
-	FName WeaponArmorySocketName = "ArmorySocket";
 
 	virtual void BeginPlay() override;
 
@@ -41,13 +34,7 @@ private:
 	UPROPERTY()
 	AJWBaseWeapon* CurrentWeapon = nullptr;
 
-	UPROPERTY()
-	AJWBaseWeapon* PreviousWeapon = nullptr;
-
-	void SpawnWeapons();
 	AJWBaseWeapon* SpawnWeapon(TSubclassOf<AJWBaseWeapon> WeaponClass);
 	
 	void AttachWeaponToSocket(AJWBaseWeapon* Weapon, USceneComponent* SceneComponent, const FName& SocketName);
-	void EquipWeapon(AJWBaseWeapon* Weapon);
-	void NextWeapon();
 };

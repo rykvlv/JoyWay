@@ -22,7 +22,7 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Component")
 	USkeletalMeshComponent* WeaponMeshComponent;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Weapon")
 	FName MuzzleSocketName = "MuzzleSocket";
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Weapon")

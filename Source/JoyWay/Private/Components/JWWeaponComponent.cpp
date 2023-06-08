@@ -14,42 +14,22 @@ void UJWWeaponComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	SpawnWeapons();
-}
-
-void UJWWeaponComponent::SpawnWeapons() 
-{
-	ACharacter* Character = Cast<ACharacter>(GetOwner());
-	if (!Character)
-		return;
-
 	if (CurrentWeaponClass)
 	{
 		auto Weapon = SpawnWeapon(CurrentWeaponClass);
-		if (Weapon)
-		{
-			Weapon->SetOwner(Character);
-			AttachWeaponToSocket(Weapon, Character->GetMesh(), WeaponEquipSocketName);
-		}
-	}
-
-	if (PreviousWeaponClass)
-	{
-		auto Weapon = SpawnWeapon(PreviousWeaponClass);
-		if (Weapon)
-		{
-			Weapon->SetOwner(Character);
-			AttachWeaponToSocket(Weapon, Character->GetMesh(), WeaponArmorySocketName);
-		}
+		EquipWeapon(Weapon);
 	}
 }
 
+
 AJWBaseWeapon* UJWWeaponComponent::SpawnWeapon(TSubclassOf<AJWBaseWeapon> WeaponClass)
 {
-	if (!GetWorld())
+	ACharacter* Character = Cast<ACharacter>(GetOwner());
+	if (!Character || !GetWorld())
 		return nullptr;
 
 	auto Weapon = GetWorld()->SpawnActor<AJWBaseWeapon>(WeaponClass);
+	Weapon->SetOwner(Character);
 
 	return Weapon;
 }
@@ -71,8 +51,9 @@ void UJWWeaponComponent::EquipWeapon(AJWBaseWeapon* Weapon)
 
 	if (Weapon)
 	{
+		Weapon->SetOwner(GetOwner());
 		CurrentWeapon = Weapon;
-		AttachWeaponToSocket(CurrentWeapon, Character->GetMesh(), WeaponArmorySocketName);
+		AttachWeaponToSocket(CurrentWeapon, Character->GetMesh(), WeaponEquipSocketName);
 	}
 }
 
@@ -91,12 +72,5 @@ void UJWWeaponComponent::StopFire()
 
 	CurrentWeapon->StopFire();
 }
-
-void UJWWeaponComponent::NextWeapon()
-{
-	EquipWeapon(PreviousWeapon);
-	std::swap(CurrentWeapon, PreviousWeapon);
-}
-
 
 

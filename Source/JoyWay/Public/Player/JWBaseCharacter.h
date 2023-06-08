@@ -8,6 +8,9 @@
 
 class UCameraComponent;
 class USpringArmComponent;
+class UJWWeaponComponent;
+class UJWHealthComponent;
+class UTextRenderComponent;
 
 UCLASS()
 class JOYWAY_API AJWBaseCharacter : public ACharacter
@@ -24,6 +27,20 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
 	USpringArmComponent* SpringArmComponent;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
+	UJWWeaponComponent* WeaponComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
+	UJWHealthComponent* HealthComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
+	UTextRenderComponent* HealthTextComponent;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Animation")
+	UAnimMontage* DeathAnimMontage = nullptr;
+
+	UPROPERTY(EditDefaulsOnly, BlueprintReadWrite, Category = "Character")
+	float TimeToDestroy = 5.0f;
 
 	virtual void BeginPlay() override;
 
@@ -31,6 +48,8 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	UJWHealthComponent* GetHealthComponent() { return HealthComponent; }
 
 	UFUNCTION(BlueprintCallable, Category = "Movement")
 	float GetMovementDirection() const;
@@ -41,4 +60,8 @@ private:
 
 	void LookUp(float Amount);
 	void TurnAround(float Amount);
+
+	void OnDeath();
+	void OnRespawn();
+	void OnHealthChanged(float Health);
 };

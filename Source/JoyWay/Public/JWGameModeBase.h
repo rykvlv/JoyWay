@@ -1,14 +1,12 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
 #include "JWGameModeBase.generated.h"
 
-/**
- * 
- */
+DECLARE_MULTICAST_DELEGATE_OneParam(FPawnDeathDelegate, AController*);
+
+
 UCLASS()
 class JOYWAY_API AJWGameModeBase : public AGameModeBase
 {
@@ -16,4 +14,10 @@ class JOYWAY_API AJWGameModeBase : public AGameModeBase
 
 public:
 	AJWGameModeBase();
+
+	FPawnDeathDelegate FOnPawnDeath;
+
+private:
+	void HandlePawnDeath(AController* Controller);
+	void RespawnPawn(AController* Controller);
 };
