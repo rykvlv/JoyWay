@@ -1,5 +1,5 @@
-#include "Weapon/JWBaseWeapon.h"
 #include "Pickups/JWWeaponPickUp.h"
+#include "Weapon/JWBaseWeapon.h"
 #include "Components/JWWeaponComponent.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "JWUtils.h"

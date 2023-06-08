@@ -39,7 +39,7 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Animation")
 	UAnimMontage* DeathAnimMontage = nullptr;
 
-	UPROPERTY(EditDefaulsOnly, BlueprintReadWrite, Category = "Character")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Character")
 	float TimeToDestroy = 5.0f;
 
 	virtual void BeginPlay() override;
