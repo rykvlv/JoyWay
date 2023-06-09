@@ -6,6 +6,7 @@
 
 DECLARE_MULTICAST_DELEGATE_OneParam(FPawnDeathDelegate, AController*);
 
+class APlayerStart;
 
 UCLASS()
 class JOYWAY_API AJWGameModeBase : public AGameModeBase
@@ -20,4 +21,5 @@ public:
 private:
 	void HandlePawnDeath(AController* Controller);
 	void RespawnPawn(AController* Controller);
+	APlayerStart* GetRandomPlayerStart() const;
 };

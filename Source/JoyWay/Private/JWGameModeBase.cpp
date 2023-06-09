@@ -18,23 +18,36 @@ void AJWGameModeBase::HandlePawnDeath(AController* Controller)
 
 void AJWGameModeBase::RespawnPawn(AController* Controller)
 {
+    auto World = GetWorld();
+    if (!World || !Controller)
+        return;
+
+    auto RandomPlayerStart = GetRandomPlayerStart();
+   
+    if (!RandomPlayerStart)
+        return;
+    
+    FActorSpawnParameters SpawnParams;
+    AJWBaseCharacter* NewPawn = World->SpawnActor<AJWBaseCharacter>(DefaultPawnClass, RandomPlayerStart->GetActorTransform(), SpawnParams);
+
+    Controller->UnPossess();
+    Controller->Possess(NewPawn);
+}
+
+APlayerStart* AJWGameModeBase::GetRandomPlayerStart() const
+{
+    auto World = GetWorld();
+    if (!World)
+        return nullptr;;
+
     TArray<AActor*> PlayerStarts;
-    UGameplayStatics::GetAllActorsOfClass(GetWorld(), APlayerStart::StaticClass(), PlayerStarts);
+    UGameplayStatics::GetAllActorsOfClass(World, APlayerStart::StaticClass(), PlayerStarts);
 
-    if (PlayerStarts.Num() > 0)
-    {
-        APlayerStart* RandomPlayerStart = Cast<APlayerStart>(PlayerStarts[FMath::RandRange(0, PlayerStarts.Num() - 1)]);
+    if (PlayerStarts.Num() == 0)
+        return nullptr;
 
-        if (RandomPlayerStart)
-        {
-            FActorSpawnParameters SpawnParams;
-            AJWBaseCharacter* NewPawn = GetWorld()->SpawnActor<AJWBaseCharacter>(DefaultPawnClass, RandomPlayerStart->GetActorTransform(), SpawnParams);
+    int RandomPlayerStartsIndex = FMath::RandRange(0, PlayerStarts.Num() - 1);
+    APlayerStart* RandomPlayerStart = Cast<APlayerStart>(PlayerStarts[RandomPlayerStartsIndex]);
 
-            if (Controller)
-            {
-                Controller->UnPossess();
-                Controller->Possess(NewPawn);
-            }
-        }
-    }
+    return RandomPlayerStart;
 }
